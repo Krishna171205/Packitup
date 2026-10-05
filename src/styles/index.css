@@ -1,0 +1,249 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --color-brand: #0f4028; /* deep green */
+  --color-brand-dark: #092618; /* darker green */
+  --color-brand-light: #165c3a; /* medium green */
+  --color-brand-subtle: #f1f7f4; /* sage green */
+  --color-brand-muted: #dcede3;
+  --color-surface: #FFFFFF;
+  --color-bg: #F9FAFB;
+  --color-ink: #111827;
+  --color-ink-2: #374151;
+  --color-ink-3: #6B7280;
+  --color-ink-4: #9CA3AF;
+  --color-border: #E5E7EB;
+  --color-border-2: #F3F4F6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #111827;
+  color: #111827;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  overscroll-behavior: none;
+}
+
+/* ===== SCROLL ===== */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ===== CARD ===== */
+.card {
+  background: #fff;
+  border-radius: 20px;
+  border: 1.5px solid #F3F4F6;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.card-hover {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  cursor: pointer;
+}
+.card-hover:active {
+  transform: scale(0.98);
+  box-shadow: 0 0 0 2px #16A34A33;
+}
+
+/* ===== BRAND BUTTON ===== */
+.btn-brand {
+  background: linear-gradient(135deg, #16A34A 0%, #15803D 100%);
+  color: white;
+  font-weight: 700;
+  border-radius: 14px;
+  padding: 14px 20px;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+  transition: transform 0.15s, box-shadow 0.15s;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 16px rgba(22, 163, 74, 0.3);
+}
+.btn-brand:active { transform: scale(0.97); }
+
+.btn-outline {
+  background: #F9FAFB;
+  color: #111827;
+  font-weight: 600;
+  border-radius: 14px;
+  padding: 13px 20px;
+  font-size: 15px;
+  border: 1.5px solid #E5E7EB;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.15s;
+}
+.btn-outline:active { background: #F3F4F6; }
+
+/* ===== STATUS CHIPS ===== */
+.chip-green { background: #DCFCE7; color: #15803D; }
+.chip-blue  { background: #DBEAFE; color: #1D4ED8; }
+.chip-amber { background: #FEF3C7; color: #D97706; }
+.chip-red   { background: #FEE2E2; color: #DC2626; }
+.chip-slate { background: #F3F4F6; color: #374151; }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+/* ===== PROGRESS BAR ===== */
+.progress-track {
+  height: 6px;
+  background: #F3F4F6;
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #16A34A, #22C55E);
+  border-radius: 99px;
+  transition: width 0.5s ease;
+}
+
+/* ===== INPUT ===== */
+.form-input {
+  width: 100%;
+  background: #F9FAFB;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #111827;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.form-input:focus {
+  border-color: #16A34A;
+  box-shadow: 0 0 0 3px rgba(22,163,74,0.12);
+  background: #fff;
+}
+.form-input::placeholder { color: #9CA3AF; }
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes shimmer {
+  from { background-position: -200% center; }
+  to   { background-position: 200% center; }
+}
+@keyframes pulse-dot {
+  0%,100% { transform: scale(1); opacity:1; }
+  50%      { transform: scale(1.3); opacity:0.7; }
+}
+
+.animate-fade-up { animation: fadeUp 0.4s ease both; }
+.animate-fade-in { animation: fadeIn 0.3s ease both; }
+
+.animate-shimmer {
+  background: linear-gradient(90deg, #F3F4F6 25%, #E5E7EB 50%, #F3F4F6 75%);
+  background-size: 200% auto;
+  animation: shimmer 1.4s linear infinite;
+}
+
+.pulse-dot { animation: pulse-dot 2s ease infinite; }
+
+/* ===== BOTTOM NAV ===== */
+.bottom-nav {
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid #F3F4F6;
+}
+
+/* ===== GLASS HERO ===== */
+.hero-dark {
+  background: linear-gradient(135deg, #111827 0%, #1F2937 50%, #111827 100%);
+  color: white;
+  border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-dark::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 160px; height: 160px;
+  background: radial-gradient(circle, rgba(22,163,74,0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ===== OPTION SELECTOR ===== */
+.option-pill {
+  border: 1.5px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: #fff;
+}
+.option-pill:active { transform: scale(0.98); }
+.option-pill.selected {
+  border-color: #16A34A;
+  background: #F0FDF4;
+  box-shadow: 0 0 0 2px rgba(22,163,74,0.15);
+}
+
+/* ===== SCREEN SCROLL CONTAINER ===== */
+.screen {
+  display: flex;
+  flex-direction: column;
+  background: #F9FAFB;
+  min-height: 100%;
+  padding-bottom: 24px;
+}
+
+/* ===== SECTION HEADER ===== */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.section-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.02em;
+}
+.section-link {
+  font-size: 12px;
+  font-weight: 700;
+  color: #16A34A;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  cursor: pointer;
+}
+
+/* ===== DIVIDER ===== */
+.divider { height: 1px; background: #F3F4F6; width: 100%; }
+
