@@ -1,8 +1,6 @@
-﻿import React from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  Search, ScanLine, Bell, Box, Users, Truck, QrCode, ArrowRight
-} from 'lucide-react';
+import { Search, ScanLine, Bell, Sparkles, Store, Truck, ShieldCheck, ArrowRight } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { ConverterHomeScreen } from './ConverterHomeScreen';
 import { MaterialProducerHomeScreen } from './MaterialProducerHomeScreen';
@@ -19,117 +17,140 @@ export const Home: React.FC = () => {
   if (role === 'transporter') return <TransporterHomeScreen />;
 
   const handleStartRecommendation = () => {
-    setActiveProjectId('proj-new');
+    setActiveProjectId('proj-tomato-1');
     navigate('/app/projects/new');
   };
 
   return (
-    <div className="bg-white min-h-full pb-24">
-      {/* Header */}
-      <div className="px-5 pt-6 pb-4 flex items-center justify-between bg-white">
+    <div className="bg-[#f9fcfb] min-h-full pb-24 select-none">
+      {/* Header Bar */}
+      <div className="bg-white px-5 pt-5 pb-3 border-b border-[#e2ebe6] flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-full bg-green-100 overflow-hidden">
-            <img src="https://i.pravatar.cc/150?u=aaryan" alt="Aaryan" className="w-full h-full object-cover" />
+          <div className="w-10 h-10 rounded-xl overflow-hidden bg-[#edf9f3] border border-[#c5d8ce] flex-shrink-0">
+            <img
+              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150"
+              alt="Aaryan"
+              className="w-full h-full object-cover"
+            />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-gray-900 leading-tight">Hi, {user?.name || 'Aaryan'}</h2>
-            <p className="text-xs text-gray-500 font-medium">Farmer • Delhi NCR</p>
+            <h2 className="font-extrabold text-[#0a0f0d] text-base leading-tight">Hi, Aaryan</h2>
+            <p className="text-[11px] font-medium text-[#6b8076]">Farmer • Delhi NCR</p>
           </div>
         </div>
-        <button className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-100 bg-gray-50 text-gray-700">
-          <Bell size={20} strokeWidth={2} />
+
+        <button
+          onClick={() => navigate('/app/notifications')}
+          className="relative w-9 h-9 rounded-xl bg-[#f2f6f4] hover:bg-[#e2ebe6] border border-[#e2ebe6] flex items-center justify-center text-[#1a2620] cursor-pointer"
+        >
+          <Bell size={17} />
+          <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#0f4028]" />
         </button>
       </div>
 
-      {/* Search */}
-      <div className="px-5 mb-6">
+      <div className="p-4 space-y-4">
+        {/* Search Bar with QR icon */}
         <div className="relative">
-          <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-            <Search size={18} className="text-gray-400" />
-          </div>
+          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#94aaa0]" />
           <input
             type="text"
             placeholder="Search commodity or packaging..."
-            className="w-full pl-11 pr-12 py-4 bg-[#f8fafc] border border-gray-100 rounded-[20px] text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#0f4028]/20 focus:border-[#0f4028]"
+            className="w-full h-11 pl-10 pr-10 bg-white rounded-xl border border-[#e2ebe6] text-xs font-medium text-[#0a0f0d] placeholder-[#94aaa0] focus:outline-none focus:border-[#0f4028]"
           />
-          <div className="absolute inset-y-0 right-4 flex items-center">
-            <ScanLine size={18} className="text-gray-400" />
-          </div>
+          <button
+            onClick={() => navigate('/app/projects/proj-tomato-1/qr')}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-[#6b8076] hover:text-[#0f4028] cursor-pointer"
+            title="Scan QR Code"
+          >
+            <ScanLine size={17} />
+          </button>
         </div>
-      </div>
 
-      {/* Hero Banner */}
-      <div className="px-5 mb-8">
-        <div 
+        {/* Hero Banner Card: AI Recommender */}
+        <div
           onClick={handleStartRecommendation}
-          className="relative bg-[#0f4028] rounded-[24px] overflow-hidden p-6 shadow-xl cursor-pointer"
+          className="p-4 rounded-2xl bg-[#edf9f3] border border-[#c5d8ce] flex items-center justify-between gap-3 cursor-pointer hover:bg-[#e6f6ee] transition-all shadow-2xs"
         >
-          {/* Subtle background decoration */}
-          <div className="absolute -right-8 -top-8 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
-          <div className="absolute -bottom-8 right-12 w-24 h-24 bg-green-400/20 rounded-full blur-xl"></div>
-          
-          <div className="relative z-10 w-2/3">
-            <h3 className="text-white text-lg font-bold leading-snug mb-4">
-              AI recommends<br />the best packaging<br />for your produce
+          <div className="flex-1 space-y-1.5">
+            <h3 className="font-extrabold text-sm text-[#0a0f0d] leading-snug">
+              AI recommends the best packaging for your produce
             </h3>
-            <div className="flex items-center gap-2 text-white font-semibold text-sm">
-              Try Now <ArrowRight size={16} />
+            <div className="inline-flex items-center gap-1 text-xs font-bold text-[#0f4028]">
+              <span>Try Now</span>
+              <ArrowRight size={13} />
             </div>
           </div>
-          
-          {/* Produce Image Mock */}
-          <div className="absolute right-[-10%] top-1/2 -translate-y-1/2 w-44 h-44 rounded-full bg-gradient-to-tr from-green-800 to-transparent flex items-center justify-center">
-             <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=300" alt="Produce" className="w-32 h-32 object-cover rounded-full shadow-2xl rotate-12 opacity-90 mix-blend-luminosity" />
+
+          <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 bg-white border border-[#c5d8ce]">
+            <img
+              src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&q=80&w=200"
+              alt="Fresh Produce Packaging"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+
+        {/* 4 Quick Actions (2x2 Grid) */}
+        <div>
+          <div className="grid grid-cols-2 gap-3">
+            {/* 1. Get Recommendation */}
+            <div
+              onClick={handleStartRecommendation}
+              className="p-3.5 bg-white rounded-2xl border border-[#e2ebe6] hover:border-[#c5d8ce] cursor-pointer space-y-2 shadow-2xs transition-all"
+            >
+              <div className="w-9 h-9 rounded-xl bg-[#edf9f3] text-[#0f4028] flex items-center justify-center border border-[#c5d8ce]">
+                <Sparkles size={18} />
+              </div>
+              <div>
+                <h4 className="font-extrabold text-xs text-[#0a0f0d]">Get Recommendation</h4>
+                <p className="text-[10px] text-[#6b8076] mt-0.5">Matched to your crop</p>
+              </div>
+            </div>
+
+            {/* 2. Find Supplier */}
+            <div
+              onClick={() => navigate('/app/suppliers')}
+              className="p-3.5 bg-white rounded-2xl border border-[#e2ebe6] hover:border-[#c5d8ce] cursor-pointer space-y-2 shadow-2xs transition-all"
+            >
+              <div className="w-9 h-9 rounded-xl bg-[#edf9f3] text-[#0f4028] flex items-center justify-center border border-[#c5d8ce]">
+                <Store size={18} />
+              </div>
+              <div>
+                <h4 className="font-extrabold text-xs text-[#0a0f0d]">Find Supplier</h4>
+                <p className="text-[10px] text-[#6b8076] mt-0.5">Verified converters</p>
+              </div>
+            </div>
+
+            {/* 3. Track Order */}
+            <div
+              onClick={() => navigate('/app/projects/proj-tomato-1/order')}
+              className="p-3.5 bg-white rounded-2xl border border-[#e2ebe6] hover:border-[#c5d8ce] cursor-pointer space-y-2 shadow-2xs transition-all"
+            >
+              <div className="w-9 h-9 rounded-xl bg-[#edf9f3] text-[#0f4028] flex items-center justify-center border border-[#c5d8ce]">
+                <Truck size={18} />
+              </div>
+              <div>
+                <h4 className="font-extrabold text-xs text-[#0a0f0d]">Track Order</h4>
+                <p className="text-[10px] text-[#6b8076] mt-0.5">Live status & dispatch</p>
+              </div>
+            </div>
+
+            {/* 4. Product Traceability */}
+            <div
+              onClick={() => navigate('/app/projects/proj-tomato-1/qr')}
+              className="p-3.5 bg-white rounded-2xl border border-[#e2ebe6] hover:border-[#c5d8ce] cursor-pointer space-y-2 shadow-2xs transition-all"
+            >
+              <div className="w-9 h-9 rounded-xl bg-[#edf9f3] text-[#0f4028] flex items-center justify-center border border-[#c5d8ce]">
+                <ShieldCheck size={18} />
+              </div>
+              <div>
+                <h4 className="font-extrabold text-xs text-[#0a0f0d]">Product Traceability</h4>
+                <p className="text-[10px] text-[#6b8076] mt-0.5">Farm-to-fork batch QR</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
-      {/* Grid Menu */}
-      <div className="px-5 grid grid-cols-2 gap-4">
-        <button 
-          onClick={handleStartRecommendation}
-          className="bg-white border border-gray-100 rounded-[24px] p-5 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] flex flex-col items-center justify-center gap-3 active:scale-95 transition-transform"
-        >
-          <div className="w-12 h-12 rounded-full bg-[#f1f7f4] text-[#165c3a] flex items-center justify-center">
-            <Box size={24} strokeWidth={2} />
-          </div>
-          <span className="text-sm font-bold text-gray-800 text-center leading-tight">Get<br/>Recommendation</span>
-        </button>
-
-        <button 
-          onClick={() => navigate('/app/suppliers')}
-          className="bg-white border border-gray-100 rounded-[24px] p-5 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] flex flex-col items-center justify-center gap-3 active:scale-95 transition-transform"
-        >
-          <div className="w-12 h-12 rounded-full bg-[#f1f7f4] text-[#165c3a] flex items-center justify-center">
-            <Users size={24} strokeWidth={2} />
-          </div>
-          <span className="text-sm font-bold text-gray-800 text-center leading-tight">Find<br/>Supplier</span>
-        </button>
-
-        <button 
-          onClick={() => navigate('/app/projects')}
-          className="bg-white border border-gray-100 rounded-[24px] p-5 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] flex flex-col items-center justify-center gap-3 active:scale-95 transition-transform"
-        >
-          <div className="w-12 h-12 rounded-full bg-[#f1f7f4] text-[#165c3a] flex items-center justify-center">
-            <Truck size={24} strokeWidth={2} />
-          </div>
-          <span className="text-sm font-bold text-gray-800 text-center leading-tight">Track<br/>Order</span>
-        </button>
-
-        <button 
-          onClick={() => {
-            setActiveProjectId('proj-banana-1');
-            navigate('/app/projects/proj-banana-1/qr');
-          }}
-          className="bg-white border border-gray-100 rounded-[24px] p-5 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] flex flex-col items-center justify-center gap-3 active:scale-95 transition-transform"
-        >
-          <div className="w-12 h-12 rounded-full bg-[#f1f7f4] text-[#165c3a] flex items-center justify-center">
-            <QrCode size={24} strokeWidth={2} />
-          </div>
-          <span className="text-sm font-bold text-gray-800 text-center leading-tight">Product<br/>Traceability</span>
-        </button>
-      </div>
-
     </div>
   );
 };

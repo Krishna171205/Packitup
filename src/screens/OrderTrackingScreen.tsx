@@ -1,110 +1,116 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Check, Truck, MapPin } from 'lucide-react';
+import { ArrowLeft, Check, Truck, QrCode } from 'lucide-react';
+
+const STEPS = [
+  { title: 'Order Placed', time: '12 Sep, 10:30 AM', status: 'done' },
+  { title: 'Production', time: 'In Progress', status: 'done' },
+  { title: 'Dispatched', time: 'Expected: 15 Sep', status: 'current' },
+  { title: 'Out for Delivery', time: 'Pending', status: 'pending' },
+  { title: 'Delivered', time: 'Pending', status: 'pending' },
+];
 
 export const OrderTrackingScreen: React.FC = () => {
   const navigate = useNavigate();
 
-  const steps = [
-    { title: 'Order Placed', time: '12 Sep, 10:30 AM', status: 'completed' },
-    { title: 'Production', time: 'In Progress', status: 'completed' },
-    { title: 'Dispatched', time: 'Expected: 15 Sep', status: 'active' },
-    { title: 'Out for Delivery', time: 'Pending', status: 'pending' },
-    { title: 'Delivered', time: 'Pending', status: 'pending' },
-  ];
-
   return (
-    <div className="flex flex-col h-full bg-white select-none justify-between p-6">
-      {/* Top Header */}
+    <div className="min-h-full bg-white flex flex-col justify-between pb-8 select-none">
       <div>
-        <div className="flex items-center gap-4 mb-4 pt-2">
+        {/* Top Header */}
+        <div className="px-5 pt-5 pb-3 flex items-center justify-between border-b border-[#e2ebe6]">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => navigate('/app/home')}
+              className="w-9 h-9 rounded-xl bg-[#f2f6f4] hover:bg-[#e2ebe6] flex items-center justify-center text-[#0a0f0d] cursor-pointer border border-[#e2ebe6]"
+            >
+              <ArrowLeft size={18} />
+            </button>
+            <h1 className="text-lg font-extrabold text-[#0a0f0d]">Order Tracking</h1>
+          </div>
+
           <button
-            onClick={() => navigate('/app/home')}
-            className="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
+            onClick={() => navigate('/app/projects/proj-tomato-1/qr')}
+            className="w-9 h-9 rounded-xl bg-[#edf9f3] text-[#0f4028] border border-[#c5d8ce] flex items-center justify-center cursor-pointer"
+            title="View Traceability QR"
           >
-            <ArrowLeft size={18} />
+            <QrCode size={17} />
           </button>
         </div>
 
-        <h1 className="text-2xl font-bold text-gray-900 tracking-tight mb-4">
-          Order Tracking
-        </h1>
+        <div className="p-6 space-y-5">
+          {/* Order ID & In Transit Badge */}
+          <div className="flex items-center justify-between">
+            <span className="font-extrabold text-sm text-[#0a0f0d]">#PU2456T9</span>
+            <span className="px-3 py-1 rounded-full bg-[#edf9f3] border border-[#c5d8ce] text-[#0f4028] text-xs font-bold">
+              In Transit
+            </span>
+          </div>
 
-        {/* Order ID & Status Badge */}
-        <div className="flex items-center justify-between py-3 border-b border-gray-100 mb-6">
-          <span className="text-sm font-bold text-gray-900">#PU2456T9</span>
-          <span className="px-3.5 py-1 bg-[#f1f7f4] text-[#165c3a] text-xs font-bold rounded-full">
-            In Transit
-          </span>
-        </div>
+          {/* 5-Step Vertical Timeline */}
+          <div className="space-y-4 pt-1">
+            {STEPS.map((s, idx) => {
+              const isDone = s.status === 'done';
+              const isCurrent = s.status === 'current';
 
-        {/* Timeline Stepper */}
-        <div className="space-y-6 relative pl-2">
-          {steps.map((st, i) => {
-            const isLast = i === steps.length - 1;
-            return (
-              <div key={st.title} className="flex gap-4 relative">
-                {/* Connecting Line */}
-                {!isLast && (
-                  <div
-                    className={`absolute left-3.5 top-7 w-[2px] h-8 ${
-                      st.status === 'completed' ? 'bg-[#0f4028]' : 'bg-gray-200'
-                    }`}
-                  />
-                )}
-
-                {/* Step Node */}
-                <div className="relative z-10 shrink-0">
-                  {st.status === 'completed' ? (
-                    <div className="w-7 h-7 rounded-full bg-[#0f4028] text-white flex items-center justify-center">
-                      <Check size={14} strokeWidth={3} />
-                    </div>
-                  ) : st.status === 'active' ? (
-                    <div className="w-7 h-7 rounded-full bg-[#f1f7f4] border-2 border-[#0f4028] flex items-center justify-center">
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#0f4028]" />
-                    </div>
-                  ) : (
-                    <div className="w-7 h-7 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center text-gray-300 text-xs">
-                      +
-                    </div>
+              return (
+                <div key={s.title} className="flex items-start gap-3.5 relative">
+                  {idx < STEPS.length - 1 && (
+                    <div
+                      className={`absolute left-3.5 top-7 bottom-[-16px] w-0.5 ${
+                        isDone ? 'bg-[#0f4028]' : 'bg-[#e2ebe6]'
+                      }`}
+                    />
                   )}
-                </div>
 
-                {/* Details */}
-                <div className="pt-0.5">
-                  <h4 className={`text-sm font-bold ${st.status === 'pending' ? 'text-gray-400' : 'text-gray-900'}`}>
-                    {st.title}
-                  </h4>
-                  <p className="text-xs text-gray-400 font-medium">
-                    {st.time}
-                  </p>
+                  <div
+                    className={`w-7 h-7 rounded-full flex items-center justify-center z-10 flex-shrink-0 ${
+                      isDone
+                        ? 'bg-[#0f4028] text-white'
+                        : isCurrent
+                        ? 'border-2 border-[#0f4028] bg-white ring-4 ring-[#edf9f3]'
+                        : 'bg-[#f2f6f4] border border-[#e2ebe6]'
+                    }`}
+                  >
+                    {isDone ? (
+                      <Check size={13} strokeWidth={3} />
+                    ) : isCurrent ? (
+                      <span className="w-2 h-2 rounded-full bg-[#0f4028]" />
+                    ) : null}
+                  </div>
+
+                  <div>
+                    <h4
+                      className={`text-xs font-extrabold ${
+                        isDone || isCurrent ? 'text-[#0a0f0d]' : 'text-[#94aaa0]'
+                      }`}
+                    >
+                      {s.title}
+                    </h4>
+                    <p className="text-[11px] text-[#6b8076] mt-0.5">{s.time}</p>
+                  </div>
                 </div>
+              );
+            })}
+          </div>
+
+          {/* Map Preview with Transit Route & Truck */}
+          <div className="w-full h-32 rounded-2xl bg-[#edf9f3] border border-[#c5d8ce] p-3 flex flex-col justify-between relative overflow-hidden">
+            <div className="flex items-center justify-between text-[11px] text-[#3d5347] font-semibold z-10">
+              <span>Noida Facility</span>
+              <span>Delhi NCR Mandi</span>
+            </div>
+
+            {/* Route illustration */}
+            <div className="relative w-full h-8 flex items-center justify-center z-10">
+              <div className="w-full h-1 bg-[#c5d8ce] rounded-full" />
+              <div className="absolute left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-[#0f4028] text-white flex items-center justify-center shadow-xs">
+                <Truck size={15} />
               </div>
-            );
-          })}
-        </div>
-      </div>
+            </div>
 
-      {/* Mini Map Card */}
-      <div className="pb-4 pt-6">
-        <div className="w-full h-36 bg-[#f1f7f4]/60 border border-emerald-100 rounded-[28px] overflow-hidden relative flex items-center justify-center p-4">
-          {/* Stylized route path */}
-          <svg className="w-full h-full" viewBox="0 0 300 100" fill="none">
-            <path
-              d="M 30 70 Q 150 20 270 60"
-              stroke="#0f4028"
-              strokeWidth="3"
-              strokeDasharray="6 6"
-            />
-            {/* Origin Pin */}
-            <circle cx="30" cy="70" r="5" fill="#0f4028" />
-            {/* Destination Pin */}
-            <circle cx="270" cy="60" r="5" fill="#16a34a" />
-          </svg>
-
-          {/* Delivery Truck Icon on the route */}
-          <div className="absolute left-[52%] top-[32%] -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-[#0f4028] text-white flex items-center justify-center shadow-lg shadow-[#0f4028]/30">
-            <Truck size={18} />
+            <div className="text-[10px] text-[#6b8076] text-center z-10">
+              Driver: Ravinder Singh • +91 98721 00412
+            </div>
           </div>
         </div>
       </div>

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Check, Loader2, Sparkles, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Check, Loader2, Sparkles, ArrowRight, ShieldCheck, Activity, Dna, Gauge } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 const analysisSteps = [
-  { title: 'Understanding food biology', detail: 'Climacteric fruit · High ethylene autocatalysis detected' },
-  { title: 'Identifying spoilage risks', detail: 'Surface abrasion + moisture condensation risk flagged' },
-  { title: 'Calculating barrier requirements', detail: 'Target: 3–5% O₂, 5% CO₂ · OTR: 45–65 cc/m²/day' },
-  { title: 'Matching polymer materials', detail: 'Evaluating PET/PE · LDPE perforated · PLA/PBAT bio-films' },
-  { title: 'Finding local manufacturers', detail: 'Scanning 10 Delhi NCR converters with food-grade lines' },
-  { title: 'Building packaging blueprint', detail: 'Synthesizing cost, shelf life & sustainability trade-offs' },
+  { title: 'Food Biology & Ethylene Model', detail: 'Climacteric fruit · High ethylene autocatalysis detected (2.4 µL/kg·h)' },
+  { title: 'Pathogen & Spoilage Vectors', detail: 'Surface abrasion + moisture condensation risk flagged' },
+  { title: 'Modified Atmosphere Optimization', detail: 'Target: 3–5% O₂, 5% CO₂ · Equilibrium OTR: 45–65 cc/m²/day' },
+  { title: 'Bio-Polymer Matrix Matching', detail: 'Simulating PLA/PBAT blend vs Micro-perforated bio-film' },
+  { title: 'Converter Capacity Screening', detail: 'Scanning certified regional converters with food-grade certifications' },
+  { title: 'Synthesizing Technical Blueprint', detail: 'Computing cost, shelf life extension & carbon footprint balance' },
 ];
 
 export const AIAnalysisScreen: React.FC = () => {
@@ -30,59 +30,105 @@ export const AIAnalysisScreen: React.FC = () => {
         if (id) updateProject(id, { status: 'BLUEPRINT' });
         return prev;
       });
-    }, 900);
+    }, 850);
     return () => clearInterval(timer);
   }, [id]);
 
   return (
-    <div className="flex flex-col h-full bg-gray-900 text-white select-none">
+    <div className="flex flex-col h-full bg-[#071f14] text-white select-none relative overflow-hidden">
+      {/* Background ambient radial glow */}
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-30"
+        style={{ background: 'radial-gradient(circle at 50% 20%, #1f7a50 0%, transparent 60%)' }}
+      />
+
       {/* Header */}
-      <div className="pt-10 pb-4 px-6 text-center">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-500/15 border border-green-500/30 text-green-400 text-xs font-semibold mb-3">
-          <Sparkles size={12} />
-          <span>AI Analysis Running</span>
+      <div className="pt-8 pb-3 px-5 text-center relative z-10 shrink-0">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#0f4028] border border-[#165c3a] text-[#a2e6bf] text-[11px] font-bold tracking-wide uppercase mb-2.5">
+          <Activity size={12} className="text-[#52c988] animate-pulse" />
+          <span>Biochemical Packaging Simulation</span>
         </div>
-        <h1 className="text-xl font-extrabold text-white leading-tight">
-          {isCompleted ? '🎉 Blueprint is Ready!' : 'Analyzing your packaging need…'}
+        
+        <h1 className="text-xl font-extrabold text-white leading-tight tracking-tight">
+          {isCompleted ? 'Optimal Blueprint Synthesized' : 'Computing Barrier Dynamics...'}
         </h1>
-        <p className="text-xs text-gray-400 mt-1">
-          {project?.foodName || 'Banana'} · {project?.quantity || 500} kg · {project?.targetShelfLifeDays || 10} day target
+        
+        <p className="text-xs text-[#94aaa0] mt-1 font-medium">
+          {project?.foodName || 'Cavendish Banana'} · {project?.quantity || 500} kg · {project?.targetShelfLifeDays || 14} Day Shelf-Life Target
         </p>
       </div>
 
-      {/* Analysis steps */}
-      <div className="flex-1 px-5 py-4">
-        <div className="bg-gray-800/80 rounded-3xl p-5 border border-gray-700 space-y-4">
+      {/* Live Scientific Metrics Chamber */}
+      <div className="px-5 py-2 relative z-10 shrink-0">
+        <div className="grid grid-cols-3 gap-2 p-2.5 bg-[#0b2418]/80 backdrop-blur-md rounded-2xl border border-[#165c3a]/50 text-center">
+          <div>
+            <div className="text-[10px] text-[#94aaa0] uppercase tracking-wider font-semibold">Respiration</div>
+            <div className="text-xs font-mono font-bold text-[#52c988] mt-0.5">High (Clim.)</div>
+          </div>
+          <div className="border-x border-[#165c3a]/50">
+            <div className="text-[10px] text-[#94aaa0] uppercase tracking-wider font-semibold">Target OTR</div>
+            <div className="text-xs font-mono font-bold text-white mt-0.5">52 cc/m²·d</div>
+          </div>
+          <div>
+            <div className="text-[10px] text-[#94aaa0] uppercase tracking-wider font-semibold">WVTR Limit</div>
+            <div className="text-xs font-mono font-bold text-[#a2e6bf] mt-0.5">18 g/m²·d</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Analysis steps progression */}
+      <div className="flex-1 px-5 py-3 overflow-y-auto no-scrollbar relative z-10">
+        <div className="bg-[#0b2418]/90 rounded-2xl p-4 border border-[#165c3a]/40 space-y-3.5 shadow-xl">
           {analysisSteps.map((st, idx) => {
             const isDone = idx < activeStep || isCompleted;
             const isCurrent = idx === activeStep && !isCompleted;
-            const isPending = idx > activeStep && !isCompleted;
 
             return (
               <div key={idx} className="flex items-start gap-3 relative">
                 {idx < analysisSteps.length - 1 && (
-                  <div className={`absolute left-3 top-7 bottom-[-16px] w-0.5 transition-colors duration-300 ${isDone ? 'bg-green-500' : 'bg-gray-700'}`} />
+                  <div 
+                    className={`absolute left-3 top-7 bottom-[-14px] w-0.5 transition-colors duration-300 ${
+                      isDone ? 'bg-[#2da464]' : 'bg-[#165c3a]/30'
+                    }`} 
+                  />
                 )}
 
-                {/* Icon */}
-                <div className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 z-10 transition-all duration-300 ${
-                  isDone ? 'bg-green-500 text-white'
-                  : isCurrent ? 'bg-gray-900 border-2 border-green-400 ring-4 ring-green-500/20'
-                  : 'bg-gray-800 border border-gray-600'
-                }`}>
-                  {isDone ? <Check size={12} strokeWidth={3} /> : isCurrent ? <Loader2 size={12} className="animate-spin text-green-400" /> : null}
+                {/* Status indicator node */}
+                <div 
+                  className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 z-10 transition-all duration-300 ${
+                    isDone 
+                      ? 'bg-[#0f4028] text-[#a2e6bf] border border-[#52c988]'
+                      : isCurrent 
+                      ? 'bg-[#071f14] border-2 border-[#52c988] ring-4 ring-[#52c988]/20'
+                      : 'bg-[#071f14] border border-[#165c3a]/40 text-[#6b8076]'
+                  }`}
+                >
+                  {isDone ? (
+                    <Check size={12} strokeWidth={3} />
+                  ) : isCurrent ? (
+                    <Loader2 size={12} className="animate-spin text-[#52c988]" />
+                  ) : (
+                    <span className="text-[9px] font-mono">{idx + 1}</span>
+                  )}
                 </div>
 
-                {/* Text */}
+                {/* Step Content */}
                 <div className="flex-1 pt-0.5">
-                  <p className={`text-xs font-bold leading-tight ${isDone ? 'text-white' : isCurrent ? 'text-green-400' : 'text-gray-500'}`}>
+                  <p className={`text-xs font-bold leading-tight ${
+                    isDone ? 'text-white' : isCurrent ? 'text-[#a2e6bf]' : 'text-[#6b8076]'
+                  }`}>
                     {st.title}
                   </p>
+                  
                   {isCurrent && (
-                    <div className="mt-1.5 p-2 rounded-xl bg-gray-900 border border-gray-700 text-[10px] text-gray-300 font-mono animate-fade-in">
-                      <span className="text-green-400 font-bold block mb-0.5">STATUS:</span>
+                    <div className="mt-1.5 p-2 rounded-xl bg-[#071f14] border border-[#165c3a] text-[10px] text-[#c2d0cc] font-mono animate-fade-in">
+                      <span className="text-[#52c988] font-bold block mb-0.5 tracking-wider">COMPUTING:</span>
                       {st.detail}
                     </div>
+                  )}
+
+                  {isDone && !isCurrent && (
+                    <p className="text-[10px] text-[#94aaa0] mt-0.5">{st.detail}</p>
                   )}
                 </div>
               </div>
@@ -91,25 +137,26 @@ export const AIAnalysisScreen: React.FC = () => {
         </div>
       </div>
 
-      {/* Bottom */}
-      <div className="px-5 pb-10 space-y-3">
+      {/* Footer Actions */}
+      <div className="px-5 pb-8 pt-2 space-y-2.5 relative z-10 shrink-0 bg-gradient-to-t from-[#071f14] via-[#071f14] to-transparent">
         {isCompleted ? (
           <button
             onClick={() => navigate(`/app/projects/${id || 'proj-banana-1'}/blueprint`)}
-            className="btn-brand w-full py-4 text-[15px] animate-fade-up"
+            className="w-full py-3.5 px-4 rounded-xl bg-[#0f4028] hover:bg-[#165c3a] text-white font-bold text-sm flex items-center justify-center gap-2 border border-[#52c988]/40 shadow-lg cursor-pointer transition-all animate-fade-up"
           >
-            View Packaging Blueprint <ArrowRight size={18} />
+            <span>View Packaging Blueprint</span>
+            <ArrowRight size={16} />
           </button>
         ) : (
-          <div className="flex items-center justify-center gap-2 text-xs text-gray-500 py-3">
-            <Loader2 size={15} className="animate-spin text-green-500" />
-            <span>Computing optimal barrier balance…</span>
+          <div className="flex items-center justify-center gap-2 text-xs text-[#94aaa0] py-2">
+            <Loader2 size={14} className="animate-spin text-[#52c988]" />
+            <span>Balancing Gas Permeability with Shelf-Life Target...</span>
           </div>
         )}
 
-        <div className="flex items-center justify-center gap-1.5 text-[10px] text-gray-600">
-          <ShieldCheck size={11} className="text-green-500" />
-          <span>PACKITUP AI · Non-destructive shelf-life optimization</span>
+        <div className="flex items-center justify-center gap-1.5 text-[10px] text-[#94aaa0]">
+          <ShieldCheck size={12} className="text-[#52c988]" />
+          <span>FSSAI & ASTM Calibrated Non-Destructive Packaging Model</span>
         </div>
       </div>
     </div>

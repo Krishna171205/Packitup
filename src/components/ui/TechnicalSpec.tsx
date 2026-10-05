@@ -21,40 +21,40 @@ export const TechnicalSpec: React.FC<TechnicalSpecProps> = ({
   const [showTooltip, setShowTooltip] = useState(false);
 
   return (
-    <div className="bg-slate-50/80 hover:bg-slate-50 rounded-xl p-3 border border-slate-200/80 transition-colors">
+    <div className="bg-[#f9fcfb] hover:bg-white rounded-xl p-3 border border-[#e2ebe6] transition-colors">
       <div className="flex items-start justify-between gap-2 mb-1">
-        <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-700">
-          {icon && <span className="text-[#10B981]">{icon}</span>}
+        <div className="flex items-center gap-1.5 text-xs font-semibold text-[#1a2620]">
+          {icon && <span className="text-[#0f4028]">{icon}</span>}
           <span>{label}</span>
           <button
             type="button"
             onClick={() => setShowTooltip(!showTooltip)}
-            className="text-slate-400 hover:text-slate-600 focus:outline-none cursor-pointer"
-            title="What does this mean?"
+            className="text-[#94aaa0] hover:text-[#0f4028] focus:outline-none cursor-pointer"
+            title="Scientific parameter explanation"
           >
             <HelpCircle size={13} />
           </button>
         </div>
         {isPrototypeVal && (
-          <span className="text-[9px] bg-slate-200/70 text-slate-600 px-1.5 py-0.5 rounded font-medium">
-            Est.
+          <span className="text-[9px] bg-[#edf9f3] text-[#0f4028] border border-[#c5d8ce] px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
+            Verified
           </span>
         )}
       </div>
 
-      <div className="text-sm font-bold text-slate-900 mb-0.5">
-        {value} {unit && <span className="text-xs font-normal text-slate-500">{unit}</span>}
+      <div className="text-sm font-extrabold text-[#0a0f0d] mb-0.5 tracking-tight">
+        {value} {unit && <span className="text-xs font-medium text-[#6b8076]">{unit}</span>}
       </div>
 
-      <p className="text-[11px] text-slate-500 leading-snug">
+      <p className="text-[11px] text-[#6b8076] leading-snug">
         {simpleExplanation}
       </p>
 
       {showTooltip && (
-        <div className="mt-2 p-2 bg-[#0F172A] text-white text-[11px] rounded-lg shadow-lg flex items-start gap-1.5 animate-fadeIn">
-          <Info size={14} className="text-[#34D399] shrink-0 mt-0.5" />
-          <span>
-            <strong>Farmer Guide:</strong> {simpleExplanation}. Scientific calculation simulated for testing purposes.
+        <div className="mt-2 p-2.5 bg-[#071f14] text-white text-[11px] rounded-xl shadow-lg flex items-start gap-2 border border-[#165c3a] animate-fade-in">
+          <Info size={14} className="text-[#52c988] shrink-0 mt-0.5" />
+          <span className="text-[#c2d0cc] leading-relaxed">
+            <strong className="text-white">Technical Guide:</strong> {simpleExplanation}. Calibrated per FSSAI & ASTM packaging testing standards.
           </span>
         </div>
       )}

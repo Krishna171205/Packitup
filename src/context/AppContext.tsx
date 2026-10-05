@@ -142,10 +142,10 @@ interface AppContextType {
 }
 
 const DEFAULT_FARMER_USER: UserProfile = {
-  name: 'Rajesh Kumar',
-  organization: 'GreenField Farmer Producer Org (FPO)',
+  name: 'Aaryan',
+  organization: 'Farmer • Delhi NCR',
   role: 'farmer',
-  location: 'Sonipat, Haryana (Delhi NCR Belt)',
+  location: 'Farmer • Delhi NCR',
   avatar: '👨‍🌾',
   phone: '+91 98712 34567',
   email: 'rajesh.greenfield@krishi.in',

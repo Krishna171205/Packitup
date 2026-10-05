@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, ChevronDown, Sparkles, Leaf, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ChevronDown, Leaf, Star, Sparkles } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export const CreateProjectWizard: React.FC = () => {
   const navigate = useNavigate();
   const { setActiveProjectId } = useApp();
-
-  // Step 1: Input, Step 2: Recommendation Card
   const [step, setStep] = useState<1 | 2>(1);
 
-  // Form states
+  // Form State
   const [commodity, setCommodity] = useState('Tomatoes');
   const [quantity, setQuantity] = useState('500');
   const [unit, setUnit] = useState('kg');
@@ -27,195 +25,200 @@ export const CreateProjectWizard: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-white select-none justify-between p-6">
-      {/* Top Navigation & Progress */}
+    <div className="min-h-full bg-white flex flex-col justify-between pb-8 select-none">
+      {/* Top Header with Progress Line */}
       <div>
-        <div className="flex items-center justify-between mb-4 pt-2">
+        <div className="px-5 pt-5 pb-3 flex items-center justify-between">
           <button
-            onClick={() => {
-              if (step === 2) setStep(1);
-              else navigate('/app/home');
-            }}
-            className="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
+            onClick={() => (step === 2 ? setStep(1) : navigate('/app/home'))}
+            className="w-9 h-9 rounded-xl bg-[#f2f6f4] hover:bg-[#e2ebe6] flex items-center justify-center text-[#0a0f0d] cursor-pointer border border-[#e2ebe6]"
           >
             <ArrowLeft size={18} />
           </button>
-          <span className="text-xs font-bold text-gray-400">
-            {step}/4
+          <span className="text-xs font-bold text-[#6b8076]">
+            {step === 1 ? '1/4' : '2/4'}
           </span>
         </div>
 
         {/* Progress Bar */}
-        <div className="w-full bg-gray-100 h-1 rounded-full mb-6 overflow-hidden">
+        <div className="w-full bg-[#f2f6f4] h-1 mb-4">
           <div
-            className="bg-[#0f4028] h-full transition-all duration-300"
-            style={{ width: `${(step / 4) * 100}%` }}
+            className="bg-[#0f4028] h-1 transition-all duration-300"
+            style={{ width: step === 1 ? '25%' : '50%' }}
           />
         </div>
 
+        {/* STEP 1: FORM INPUT */}
         {step === 1 ? (
-          /* STEP 1: Inputs */
-          <div className="space-y-6">
-            <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
-              Get Packaging<br />Recommendation
-            </h1>
-
-            {/* Commodity Select */}
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-gray-700">
-                What are you packaging?
-              </label>
-              <div className="relative">
-                <select
-                  value={commodity}
-                  onChange={(e) => setCommodity(e.target.value)}
-                  className="w-full appearance-none bg-[#f8fafc] border border-gray-100 rounded-2xl py-4 px-4 text-sm font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#0f4028]/20 focus:border-[#0f4028]"
-                >
-                  <option value="Tomatoes">Tomatoes</option>
-                  <option value="Mangoes">Mangoes</option>
-                  <option value="Bananas">Bananas</option>
-                  <option value="Apples">Apples</option>
-                  <option value="Spinach">Spinach</option>
-                </select>
-                <ChevronDown size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-              </div>
+          <div className="px-6 space-y-5 animate-fade-in">
+            <div>
+              <h1 className="text-xl font-extrabold text-[#0a0f0d] tracking-tight">
+                Get Packaging Recommendation
+              </h1>
+              <p className="text-xs text-[#6b8076] mt-1">
+                Tell us about your produce to calculate the exact barrier specs.
+              </p>
             </div>
 
-            {/* Quantity with unit */}
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-gray-700">
-                Quantity
-              </label>
-              <div className="flex gap-3">
-                <input
-                  type="number"
-                  value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
-                  className="flex-1 bg-[#f8fafc] border border-gray-100 rounded-2xl py-4 px-4 text-sm font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#0f4028]/20 focus:border-[#0f4028]"
-                  placeholder="500"
-                />
-                <div className="relative w-28">
+            <div className="space-y-4">
+              {/* Field 1: What are you packaging? */}
+              <div>
+                <label className="block text-xs font-bold text-[#1a2620] mb-1.5">
+                  What are you packaging?
+                </label>
+                <div className="relative">
                   <select
-                    value={unit}
-                    onChange={(e) => setUnit(e.target.value)}
-                    className="w-full appearance-none bg-[#f8fafc] border border-gray-100 rounded-2xl py-4 px-4 text-sm font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#0f4028]/20 focus:border-[#0f4028]"
+                    value={commodity}
+                    onChange={(e) => setCommodity(e.target.value)}
+                    className="w-full h-12 px-3.5 bg-white rounded-xl border border-[#e2ebe6] text-sm font-semibold text-[#0a0f0d] appearance-none focus:outline-none focus:border-[#0f4028]"
                   >
-                    <option value="kg">kg</option>
-                    <option value="ton">ton</option>
-                    <option value="crates">crates</option>
+                    <option value="Tomatoes">Tomatoes</option>
+                    <option value="Bananas">Bananas</option>
+                    <option value="Mangoes">Mangoes</option>
+                    <option value="Apples">Apples</option>
+                    <option value="Grapes">Grapes</option>
+                    <option value="Potatoes">Potatoes</option>
                   </select>
-                  <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                  <ChevronDown size={16} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#94aaa0] pointer-events-none" />
                 </div>
               </div>
-            </div>
 
-            {/* Target Shelf Life */}
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-gray-700">
-                Target Shelf Life
-              </label>
-              <div className="relative">
-                <select
-                  value={shelfLife}
-                  onChange={(e) => setShelfLife(e.target.value)}
-                  className="w-full appearance-none bg-[#f8fafc] border border-gray-100 rounded-2xl py-4 px-4 text-sm font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#0f4028]/20 focus:border-[#0f4028]"
-                >
-                  <option value="7 days">7 days</option>
-                  <option value="15 days">15 days</option>
-                  <option value="21 days">21 days</option>
-                  <option value="30 days">30 days</option>
-                </select>
-                <ChevronDown size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+              {/* Field 2: Quantity */}
+              <div>
+                <label className="block text-xs font-bold text-[#1a2620] mb-1.5">
+                  Quantity
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="number"
+                    value={quantity}
+                    onChange={(e) => setQuantity(e.target.value)}
+                    className="flex-1 h-12 px-3.5 bg-white rounded-xl border border-[#e2ebe6] text-sm font-semibold text-[#0a0f0d] focus:outline-none focus:border-[#0f4028]"
+                  />
+                  <div className="relative w-28">
+                    <select
+                      value={unit}
+                      onChange={(e) => setUnit(e.target.value)}
+                      className="w-full h-12 px-3 bg-white rounded-xl border border-[#e2ebe6] text-sm font-semibold text-[#0a0f0d] appearance-none focus:outline-none focus:border-[#0f4028]"
+                    >
+                      <option value="kg">kg</option>
+                      <option value="ton">ton</option>
+                      <option value="crates">crates</option>
+                    </select>
+                    <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#94aaa0] pointer-events-none" />
+                  </div>
+                </div>
               </div>
-            </div>
 
-            {/* Transit Conditions */}
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-gray-700">
-                Transit Conditions
-              </label>
-              <div className="relative">
-                <select
-                  value={transit}
-                  onChange={(e) => setTransit(e.target.value)}
-                  className="w-full appearance-none bg-[#f8fafc] border border-gray-100 rounded-2xl py-4 px-4 text-sm font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#0f4028]/20 focus:border-[#0f4028]"
-                >
-                  <option value="Ambient">Ambient</option>
-                  <option value="Reefer Cold Chain (4-8°C)">Reefer Cold Chain (4-8°C)</option>
-                  <option value="Express Inter-State">Express Inter-State</option>
-                </select>
-                <ChevronDown size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+              {/* Field 3: Target Shelf Life */}
+              <div>
+                <label className="block text-xs font-bold text-[#1a2620] mb-1.5">
+                  Target Shelf Life
+                </label>
+                <div className="relative">
+                  <select
+                    value={shelfLife}
+                    onChange={(e) => setShelfLife(e.target.value)}
+                    className="w-full h-12 px-3.5 bg-white rounded-xl border border-[#e2ebe6] text-sm font-semibold text-[#0a0f0d] appearance-none focus:outline-none focus:border-[#0f4028]"
+                  >
+                    <option value="7 days">7 days</option>
+                    <option value="15 days">15 days</option>
+                    <option value="21 days">21 days</option>
+                    <option value="30 days">30 days</option>
+                  </select>
+                  <ChevronDown size={16} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#94aaa0] pointer-events-none" />
+                </div>
+              </div>
+
+              {/* Field 4: Transit Conditions */}
+              <div>
+                <label className="block text-xs font-bold text-[#1a2620] mb-1.5">
+                  Transit Conditions
+                </label>
+                <div className="relative">
+                  <select
+                    value={transit}
+                    onChange={(e) => setTransit(e.target.value)}
+                    className="w-full h-12 px-3.5 bg-white rounded-xl border border-[#e2ebe6] text-sm font-semibold text-[#0a0f0d] appearance-none focus:outline-none focus:border-[#0f4028]"
+                  >
+                    <option value="Ambient">Ambient</option>
+                    <option value="Chilled (8–10°C)">Chilled (8–10°C)</option>
+                    <option value="Cold Chain (2–4°C)">Cold Chain (2–4°C)</option>
+                  </select>
+                  <ChevronDown size={16} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#94aaa0] pointer-events-none" />
+                </div>
               </div>
             </div>
           </div>
         ) : (
-          /* STEP 2: Recommended Packaging Card */
-          <div className="space-y-5 animate-fade-in">
-            <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
-              Recommended Packaging
-            </h1>
+          /* STEP 2: RECOMMENDED PACKAGING */
+          <div className="px-6 space-y-4 animate-fade-in">
+            <div>
+              <h1 className="text-xl font-extrabold text-[#0a0f0d] tracking-tight">
+                Recommended Packaging
+              </h1>
+              <p className="text-xs text-[#6b8076] mt-0.5">
+                Optimized for fresh {commodity} ({quantity} {unit})
+              </p>
+            </div>
 
-            {/* Product Card matching design */}
-            <div className="border border-gray-100 rounded-[28px] p-4 bg-white shadow-[0_4px_25px_-5px_rgba(0,0,0,0.06)] space-y-4">
-              <div className="w-full h-44 rounded-2xl bg-gray-50 overflow-hidden flex items-center justify-center">
-                <img
-                  src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=400"
-                  alt="Packaged Tomatoes"
-                  className="w-full h-full object-cover"
-                />
+            {/* Hero Image Container */}
+            <div className="w-full h-44 rounded-2xl overflow-hidden border border-[#e2ebe6] bg-[#f9fcfb] relative">
+              <img
+                src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=600"
+                alt="Tomatoes in bio clamshell"
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            {/* Product Title & Bio */}
+            <div>
+              <h3 className="font-extrabold text-base text-[#0a0f0d]">PLA + PBAT Film</h3>
+              <p className="text-xs text-[#6b8076] mt-0.5">
+                Biodegradable, good barrier, suitable for fresh produce.
+              </p>
+            </div>
+
+            {/* 3 Metric Highlights */}
+            <div className="grid grid-cols-3 gap-2">
+              <div className="p-3 bg-[#f9fcfb] rounded-xl border border-[#e2ebe6] text-center">
+                <span className="block text-[10px] font-semibold text-[#6b8076]">Shelf Life</span>
+                <span className="block text-xs font-extrabold text-[#0a0f0d] mt-0.5">15–18 days</span>
               </div>
 
-              <div>
-                <h3 className="text-lg font-bold text-gray-900">
-                  PLA + PBAT Film
-                </h3>
-                <p className="text-xs text-gray-500 font-medium mt-1 leading-relaxed">
-                  Biodegradable, good barrier, suitable for fresh produce.
-                </p>
+              <div className="p-3 bg-[#f9fcfb] rounded-xl border border-[#e2ebe6] text-center">
+                <span className="block text-[10px] font-semibold text-[#6b8076]">Est. Cost</span>
+                <span className="block text-xs font-extrabold text-[#0a0f0d] mt-0.5">₹12/kg</span>
               </div>
 
-              {/* Stats Row */}
-              <div className="grid grid-cols-2 gap-4 py-2 border-y border-gray-50">
-                <div>
-                  <span className="text-[11px] font-semibold text-gray-400 block">Shelf Life</span>
-                  <span className="text-sm font-bold text-gray-900">15-18 days</span>
+              <div className="p-3 bg-[#f9fcfb] rounded-xl border border-[#e2ebe6] text-center">
+                <span className="block text-[10px] font-semibold text-[#6b8076]">Sustainability</span>
+                <div className="flex items-center justify-center gap-1 mt-0.5">
+                  <Leaf size={12} className="text-[#0f4028]" />
+                  <span className="text-xs font-extrabold text-[#0f4028]">92/100</span>
                 </div>
-                <div>
-                  <span className="text-[11px] font-semibold text-gray-400 block">Est. Cost</span>
-                  <span className="text-sm font-bold text-gray-900">₹12/kg</span>
-                </div>
               </div>
+            </div>
 
-              {/* Sustainability Badge */}
-              <div className="bg-[#f1f7f4] rounded-2xl p-3 flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#165c3a] text-white flex items-center justify-center">
-                  <Leaf size={16} />
-                </div>
-                <div>
-                  <span className="text-xs font-bold text-[#0f4028] block">Sustainability Score</span>
-                  <span className="text-sm font-extrabold text-[#0f4028]">92/100</span>
-                </div>
-              </div>
-
-              {/* Dots */}
-              <div className="flex justify-center gap-1.5 pt-1">
-                <div className="w-2 h-2 rounded-full bg-[#0f4028]" />
-                <div className="w-2 h-2 rounded-full bg-gray-200" />
-                <div className="w-2 h-2 rounded-full bg-gray-200" />
-              </div>
+            {/* Carousel Dots */}
+            <div className="flex justify-center items-center gap-1.5 pt-1">
+              <div className="w-5 h-1.5 bg-[#0f4028] rounded-full" />
+              <div className="w-1.5 h-1.5 bg-[#c5d8ce] rounded-full" />
+              <div className="w-1.5 h-1.5 bg-[#c5d8ce] rounded-full" />
+              <div className="w-1.5 h-1.5 bg-[#c5d8ce] rounded-full" />
             </div>
           </div>
         )}
       </div>
 
-      {/* Action Button */}
-      <div className="pb-4 pt-6">
+      {/* Bottom CTA Button */}
+      <div className="px-6 pt-4">
         <button
           onClick={handleNext}
-          className="w-full py-4 bg-[#0f4028] hover:bg-[#165c3a] text-white font-bold rounded-full text-base transition-all shadow-lg shadow-[#0f4028]/20 cursor-pointer active:scale-98 flex items-center justify-center gap-2"
+          className="w-full h-13 rounded-2xl bg-[#0f4028] hover:bg-[#165c3a] text-white font-bold text-sm flex items-center justify-center gap-2 shadow-xs cursor-pointer transition-all"
         >
           <span>{step === 1 ? 'Next' : 'View Details'}</span>
-          <ArrowRight size={18} />
+          <ArrowRight size={16} />
         </button>
       </div>
     </div>

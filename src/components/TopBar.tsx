@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Bell, ChevronLeft, Search } from 'lucide-react';
+import { Bell, ChevronLeft, ShieldCheck, Sparkles } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 interface TopBarProps {
@@ -20,32 +20,48 @@ export const TopBar: React.FC<TopBarProps> = ({ title, showBack = false, onBack,
     else navigate(-1);
   };
 
+  // Safe initial letters for user avatar (no emojis)
+  const userInitials = (user?.name || 'User')
+    .split(' ')
+    .map((n: string) => n[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
+
   return (
-    <header className="sticky top-0 z-40 bg-white/97 backdrop-blur-md border-b border-gray-100 px-4 py-3 shrink-0">
+    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#e2ebe6] px-4 py-2.5 shrink-0 transition-colors">
       <div className="flex items-center justify-between gap-3">
         {/* Left */}
-        <div className="flex items-center gap-2 min-w-0">
+        <div className="flex items-center gap-2.5 min-w-0">
           {showBack ? (
             <button
               onClick={handleBack}
-              className="w-9 h-9 rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-700 transition-colors cursor-pointer shrink-0"
+              className="w-8 h-8 rounded-xl bg-[#f2f6f4] hover:bg-[#e2ebe6] flex items-center justify-center text-[#1a2620] transition-colors cursor-pointer shrink-0 border border-[#e2ebe6]"
+              aria-label="Back"
             >
-              <ChevronLeft size={20} />
+              <ChevronLeft size={18} />
             </button>
           ) : (
-            <div onClick={() => navigate('/app/home')} className="flex items-center gap-2 cursor-pointer">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center shadow-sm">
-                <span className="font-black text-white text-base">P</span>
+            <div onClick={() => navigate('/app/home')} className="flex items-center gap-2.5 cursor-pointer group">
+              <div className="w-8 h-8 rounded-xl bg-[#0f4028] flex items-center justify-center shadow-xs group-hover:bg-[#165c3a] transition-colors">
+                <span className="font-extrabold text-white text-sm tracking-tight">P</span>
               </div>
               <div>
-                <span className="font-black text-gray-900 tracking-tighter text-base">PACKITUP</span>
-                <span className="block text-[9px] uppercase tracking-widest text-green-600 font-bold -mt-0.5">AI PACKAGING</span>
+                <div className="flex items-center gap-1.5">
+                  <span className="font-extrabold text-[#0a0f0d] tracking-tight text-[15px]">PACKITUP</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#0f4028]" />
+                </div>
+                <span className="block text-[8.5px] uppercase tracking-widest text-[#0f4028] font-bold">
+                  Food Packaging Intelligence
+                </span>
               </div>
             </div>
           )}
 
           {title && (
-            <h1 className="font-bold text-gray-900 text-[15px] truncate pl-1">{title}</h1>
+            <h1 className="font-bold text-[#0a0f0d] text-[14px] truncate pl-1 border-l border-[#e2ebe6] ml-1 pl-2">
+              {title}
+            </h1>
           )}
         </div>
 
@@ -55,11 +71,12 @@ export const TopBar: React.FC<TopBarProps> = ({ title, showBack = false, onBack,
 
           <button
             onClick={() => navigate('/app/notifications')}
-            className="relative w-9 h-9 rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-700 transition-colors cursor-pointer"
+            className="relative w-8 h-8 rounded-xl bg-[#f2f6f4] hover:bg-[#e2ebe6] border border-[#e2ebe6] flex items-center justify-center text-[#3d5347] transition-colors cursor-pointer"
+            title="Notifications"
           >
-            <Bell size={17} />
+            <Bell size={16} />
             {unread > 0 && (
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 text-white rounded-full text-[9px] font-extrabold flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#0f4028] text-white rounded-full text-[9px] font-extrabold flex items-center justify-center">
                 {unread}
               </span>
             )}
@@ -67,10 +84,10 @@ export const TopBar: React.FC<TopBarProps> = ({ title, showBack = false, onBack,
 
           <button
             onClick={() => navigate('/app/profile')}
-            className="w-9 h-9 rounded-xl bg-green-50 border border-green-100 flex items-center justify-center text-base cursor-pointer hover:ring-2 hover:ring-green-200 transition-all"
-            title={user.name}
+            className="w-8 h-8 rounded-xl bg-[#edf9f3] border border-[#c5d8ce] flex items-center justify-center text-xs font-bold text-[#0f4028] cursor-pointer hover:bg-[#d4f4e4] transition-all"
+            title={user?.name || 'Account'}
           >
-            {user.avatar}
+            {userInitials}
           </button>
         </div>
       </div>

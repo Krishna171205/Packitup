@@ -1,78 +1,77 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const Splash: React.FC = () => {
   const navigate = useNavigate();
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      navigate('/onboarding');
-    }, 2400);
-    return () => clearTimeout(timer);
+    const t1 = setTimeout(() => setVisible(true), 150);
+    const t2 = setTimeout(() => navigate('/onboarding'), 2600);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [navigate]);
 
   return (
-    <div 
+    <div
       onClick={() => navigate('/onboarding')}
-      className="flex flex-col h-full bg-white select-none relative overflow-hidden cursor-pointer justify-between p-8"
+      className="flex flex-col h-full bg-white select-none cursor-pointer relative overflow-hidden justify-between"
     >
-      {/* Top subtle badge */}
-      <div className="pt-4 flex justify-center">
-        <span className="text-[11px] font-bold text-emerald-800 bg-[#f1f7f4] px-3.5 py-1 rounded-full uppercase tracking-wider">
-          AI Packaging Platform
-        </span>
-      </div>
-
-      {/* Main Center Logo & Brand */}
-      <div className="flex flex-col items-center justify-center my-auto">
-        {/* Modern Origami P Logo matching design */}
-        <div className="w-24 h-24 mb-6 relative flex items-center justify-center">
-          <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-md">
-            {/* Dark green folded ribbon shape */}
-            <path
-              d="M32 20 C32 15 36 12 42 12 L64 12 C78 12 88 22 88 36 C88 50 78 60 64 60 L48 60 L48 84 C48 89 44 92 39 92 L35 92 C30 92 26 88 26 83 L26 32 C26 25 29 20 32 20 Z"
-              fill="#0f4028"
-            />
-            {/* Lighter green folding inner accent */}
-            <path
-              d="M48 24 L62 24 C71 24 76 29 76 36 C76 43 71 48 62 48 L48 48 Z"
-              fill="#ffffff"
-              opacity="0.95"
-            />
-            <path
-              d="M32 36 L48 36 L48 54 L38 54 C34 54 32 50 32 46 Z"
-              fill="#22c55e"
-              opacity="0.8"
-            />
-          </svg>
+      {/* Top Status Bar Spacer */}
+      <div className="pt-6 px-6 flex justify-between items-center text-xs font-semibold text-[#0a0f0d]">
+        <span>9:41</span>
+        <div className="flex items-center gap-1.5">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#0a0f0d]" />
+          <span className="w-4 h-2.5 border border-[#0a0f0d] rounded-xs" />
         </div>
-
-        <h1 className="text-4xl font-extrabold text-[#0f4028] tracking-tight mb-2">
-          Packit Up
-        </h1>
-        <p className="text-sm font-medium text-gray-500 tracking-wide text-center">
-          Smart Packaging<br />for a Fresher Tomorrow
-        </p>
       </div>
 
-      {/* Bottom organic green waves */}
-      <div className="relative w-full h-32 flex items-end justify-center pointer-events-none">
-        <svg
-          viewBox="0 0 400 120"
-          className="absolute bottom-0 w-full h-full opacity-35"
-          preserveAspectRatio="none"
+      {/* Center Brand Lockup */}
+      <div className="flex-1 flex flex-col items-center justify-center px-8 text-center">
+        <div
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? 'translateY(0)' : 'translateY(16px)',
+            transition: 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+          }}
+          className="flex flex-col items-center"
         >
-          <path
-            d="M0 60 C120 10 240 100 400 40 L400 120 L0 120 Z"
-            fill="#a7f3d0"
-          />
-          <path
-            d="M0 80 C150 40 280 110 400 70 L400 120 L0 120 Z"
-            fill="#34d399"
-            opacity="0.5"
-          />
-        </svg>
-        <div className="w-10 h-1 bg-gray-300 rounded-full mb-2 z-10 opacity-60"></div>
+          {/* Logo Glyph: Stylized geometric leaf 'P' */}
+          <div className="w-24 h-24 mb-6 relative flex items-center justify-center">
+            <svg width="88" height="88" viewBox="0 0 88 88" fill="none">
+              <path
+                d="M44 8C24.118 8 8 24.118 8 44c0 14.2 8.24 26.5 20.25 32.35 1.5.75 3.25-.35 3.25-2.05v-23.8c0-2.2 1.8-4 4-4h8.5c13.25 0 24-10.75 24-24S57.25 8 44 8z"
+                fill="#0f4028"
+              />
+              <path
+                d="M43.5 22C34.4 22 27 29.4 27 38.5c0 1.9 1.6 3.5 3.5 3.5h13c7.2 0 13-5.8 13-13s-5.8-7-13-7z"
+                fill="#2da464"
+                opacity="0.9"
+              />
+              <circle cx="68" cy="24" r="5" fill="#a2e6bf" />
+            </svg>
+          </div>
+
+          <h1 className="text-3xl font-extrabold text-[#0a0f0d] tracking-tight mb-2">
+            Packit Up
+          </h1>
+          <p className="text-sm font-medium text-[#6b8076] max-w-xs leading-relaxed">
+            Smart Packaging for a Fresher Tomorrow
+          </p>
+        </div>
+      </div>
+
+      {/* Bottom Wave Graphics & Indicator */}
+      <div className="relative w-full overflow-hidden pb-4">
+        {/* Soft mint/green wave aura */}
+        <div
+          className="w-full h-32 opacity-70 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse at 50% 120%, rgba(45,164,100,0.22) 0%, rgba(237,249,243,0.8) 50%, transparent 80%)',
+          }}
+        />
+
+        {/* Bottom iOS Indicator bar */}
+        <div className="w-32 h-1 bg-[#0a0f0d]/80 rounded-full mx-auto mt-2" />
       </div>
     </div>
   );
